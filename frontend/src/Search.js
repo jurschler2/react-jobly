@@ -6,6 +6,9 @@ function Search({ addQuery }) {
     query: "",
   });
 
+  // FS, TODO: programming technique called debouncing
+  // A function that you have wrapped so that is pauses x amount of time between calls before running again
+
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((fData) => ({

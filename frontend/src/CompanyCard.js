@@ -1,7 +1,7 @@
 import React from "react";
 
 // Renders an indivual company detail card.
-function CompanyCard({company}) {
+function CompanyCard({ company }) {
   return (
     <div>
       <h4>{company.name}</h4>

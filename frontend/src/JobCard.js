@@ -1,14 +1,14 @@
 import React from "react";
 
 // Renders an individual job detail card.
-function JobCard() {
-
+function JobCard({ job }) {
   return (
     <div>
-      JobCard
+      <h4>{job.title}</h4>
+      <p>Salary: {job.salary}</p>
+      <p>Equity: {job.equity}</p>
     </div>
-  )
-
+  );
 }
 
 export default JobCard;

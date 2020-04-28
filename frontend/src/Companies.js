@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Search from "./Search";
 import CompanyCard from "./CompanyCard";
 import JoblyApi from "./JoblyAPI";
 import { v4 as uuid } from "uuid";
+import LoginToken from "./loginToken";
 
 // Renders a list of companies; shows a search bar and each company card
 function Companies() {
+  const token = useContext(LoginToken);
+  console.log("TOKEN IS", token);
   const [companiesAPI, setCompaniesAPI] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -16,21 +19,22 @@ function Companies() {
       setCompaniesAPI(companies);
     }
     getCompaniesAPI();
-  }, [query, setCompaniesAPI]);
+  }, [query]);
 
   // Set query state from Search component
+  // Andrei: Try to disable feature of autoformat ()
   const addQuery = (query) => {
     setQuery(query);
   };
 
-  let companiesHTML = companiesAPI.map((c) => (
+  let companyCardList = companiesAPI.map((c) => (
     <CompanyCard key={uuid()} company={c} />
   ));
   return (
     <div>
       Companies
       <Search addQuery={addQuery} />
-      {companiesHTML}
+      {companyCardList}
     </div>
   );
 }
