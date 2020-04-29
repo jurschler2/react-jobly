@@ -1,12 +1,14 @@
+import React, { useContext } from "react";
+import LoginToken from "./loginToken";
 import axios from "axios";
 
 // Class to centralize and simplify backend API interactions for React frontend.
 class JoblyApi {
   static async request(endpoint, paramsOrData = {}, verb = "get") {
-    paramsOrData._token = // for now, hardcode token for "testing"
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc" +
-      "3RpbmciLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU1MzcwMzE1M30." +
-      "COmFETEsTxN_VfIlgIKw0bYJLkvbRQNgO1XCSE8NZ0U";
+    // paramsOrData._token = // for now, hardcode token for "testing"
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc" +
+    //   "3RpbmciLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU1MzcwMzE1M30." +
+    //   "COmFETEsTxN_VfIlgIKw0bYJLkvbRQNgO1XCSE8NZ0U";
 
     console.debug("API Call:", endpoint, paramsOrData, verb);
 
@@ -28,18 +30,18 @@ class JoblyApi {
     }
   }
 
-  static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
+  static async getCompany(handle, token) {
+    let res = await this.request(`companies/${handle}`, { _token: token });
     return res.company;
   }
 
-  static async getCompanies(query = "") {
-    let res = await this.request(`companies`, { search: query });
+  static async getCompanies(query = "", token) {
+    let res = await this.request(`companies`, { search: query, _token: token });
     return res.companies;
   }
 
-  static async getJobs(query = "") {
-    let res = await this.request(`jobs`, { search: query });
+  static async getJobs(query = "", token) {
+    let res = await this.request(`jobs`, { search: query, _token: token });
     return res.jobs;
   }
 
@@ -48,10 +50,39 @@ class JoblyApi {
     return res.token;
   }
 
-  static async register({username, password, first_name, last_name, email, photo_url=""}) {
-    photo_url === "" ? photo_url = undefined : photo_url = photo_url;
-    let res = await this.request(`users`, { username, password, first_name, last_name, email, photo_url }, "post");
+  static async register({
+    username,
+    password,
+    first_name,
+    last_name,
+    email,
+    photo_url = "",
+  }) {
+    photo_url ? (photo_url = photo_url) : (photo_url = undefined);
+    let res = await this.request(
+      `users`,
+      { username, password, first_name, last_name, email, photo_url },
+      "post"
+    );
     return res.token;
+  }
+
+  static async getUser(username, token) {
+    let res = await this.request(`users/${username}`, { _token: token });
+    return res.user;
+  }
+
+  static async updateUser(username, data, token) {
+    data._token = token;
+    // delete data.jobs;
+    delete data.username;
+    delete data.id;
+    data.photo_url
+      ? (data.photo_url = data.photo_url)
+      : (data.photo_url = undefined);
+    console.log("data", data);
+    let res = await this.request(`users/${username}`, data, "patch");
+    return res.user;
   }
 }
 

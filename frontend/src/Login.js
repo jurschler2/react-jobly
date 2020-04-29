@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   first_name: "",
   last_name: "",
   email: "",
-  photo_url: ""
+  photo_url: "",
 };
 
 // Renders a login page for the user to login or signup.
@@ -18,7 +18,7 @@ function Login({ addLogin, addRegistration }) {
   const [showRegistration, setShowRegistration] = useState(true);
 
   // Get the token from context.
-  const {token} = useContext(LoginToken)
+  const { token } = useContext(LoginToken);
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -40,86 +40,85 @@ function Login({ addLogin, addRegistration }) {
   // Toggle between the login and registration forms
   function formToggle(evt) {
     evt.preventDefault();
-    setShowRegistration(old => !old)
-
+    setShowRegistration((old) => !old);
   }
 
   const renderLoginHTML = () => {
-    return (<form action="" onSubmit={handleLoginSubmit}>
-    <label htmlFor="username">Username:</label>
-    <input
-      name="username"
-      onChange={handleChange}
-      value={formData.username}
-    />
-    <label htmlFor="password">Password:</label>
-    <input
-      type="password"
-      name="password"
-      onChange={handleChange}
-      value={formData.password}
-    />
-    <button>Submit</button>
-  </form>)
-  }
+    return (
+      <form action="" onSubmit={handleLoginSubmit}>
+        <label htmlFor="username">Username:</label>
+        <input
+          name="username"
+          onChange={handleChange}
+          value={formData.username}
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={formData.password}
+        />
+        <button>Submit</button>
+      </form>
+    );
+  };
 
   const renderRegistrationHTML = () => {
-    return (<form action="" onSubmit={handleRegistrationSubmit}>
-    <label htmlFor="username">Username:</label>
-    <input
-      name="username"
-      onChange={handleChange}
-      value={formData.username}
-    />
-    <label htmlFor="password">Password:</label>
-    <input
-      type="password"
-      name="password"
-      onChange={handleChange}
-      value={formData.password}
-    />
-    <label htmlFor="first_name">First Name:</label>
-    <input
-      name="first_name"
-      onChange={handleChange}
-      value={formData.first_name}
-    />
-    <label htmlFor="last_name">Last Name:</label>
-    <input
-      name="last_name"
-      onChange={handleChange}
-      value={formData.last_name}
-    />
-    <label htmlFor="email">Email:</label>
-    <input
-      name="email"
-      onChange={handleChange}
-      value={formData.email}
-    />
-    <label htmlFor="photo_url">Photo:</label>
-    <input
-      name="photo_url"
-      onChange={handleChange}
-      value={formData.photo_url}
-    />
-    <button>Submit</button>
-  </form>)
-  }
-
-
+    return (
+      <form action="" onSubmit={handleRegistrationSubmit}>
+        <label htmlFor="username">Username:</label>
+        <input
+          name="username"
+          onChange={handleChange}
+          value={formData.username}
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={formData.password}
+        />
+        <label htmlFor="first_name">First Name:</label>
+        <input
+          name="first_name"
+          onChange={handleChange}
+          value={formData.first_name}
+        />
+        <label htmlFor="last_name">Last Name:</label>
+        <input
+          name="last_name"
+          onChange={handleChange}
+          value={formData.last_name}
+        />
+        <label htmlFor="email">Email:</label>
+        <input name="email" onChange={handleChange} value={formData.email} />
+        <label htmlFor="photo_url">Photo:</label>
+        <input
+          name="photo_url"
+          onChange={handleChange}
+          value={formData.photo_url}
+        />
+        <button>Submit</button>
+      </form>
+    );
+  };
 
   return (
-
     // If logged in, redirect to the homepage, else render a form to login or register.
-   <div>
-    {token 
-      ? <Redirect to="/" /> 
-      : <div>
-          <button onClick={formToggle}>{showRegistration ? "Login" : "Register"}</button>
+    <div>
+      {token ? (
+        <Redirect to="/" />
+      ) : (
+        <div>
+          <button onClick={formToggle}>
+            {showRegistration ? "Login" : "Register"}
+          </button>
           {showRegistration ? renderRegistrationHTML() : renderLoginHTML()}
         </div>
-    }
-    </div> 
+      )}
+    </div>
   );
 }
 

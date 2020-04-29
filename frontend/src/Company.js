@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import JobCard from "./JobCard";
 import JoblyApi from "./JoblyAPI";
 import { v4 as uuid } from "uuid";
-import { useParams } from "react-router-dom";
+import LoginToken from "./loginToken";
+import { useParams, Redirect, Link } from "react-router-dom";
 
 // Renders an indiviual company's details with its list of jobs.
 function Company() {
+  const { token } = useContext(LoginToken);
   const handle = useParams().company;
   const [companyAPI, setCompanyAPI] = useState();
 
   // Get company by handle
   useEffect(() => {
     async function getCompanyAPI() {
-      const company = await JoblyApi.getCompany(handle);
+      const company = await JoblyApi.getCompany(handle, token);
       setCompanyAPI(company);
     }
     getCompanyAPI();
-  }, [handle, setCompanyAPI]);
+  }, [handle, token]);
+
+  // If not logged in, redirect to home
+  if (!localStorage["token"] && !token) {
+    return <Redirect to="/" />;
+  }
 
   let jobsHTML;
   if (companyAPI) {
@@ -27,6 +34,7 @@ function Company() {
 
   return (
     <div>
+      <Link to="/companies">Back</Link>
       <h2>{companyAPI ? companyAPI.name : null}</h2>
       {jobsHTML}
     </div>
