@@ -7,8 +7,7 @@ import LoginToken from "./loginToken";
 
 // Renders a list of companies; shows a search bar and each company card
 function Companies() {
-  const token = useContext(LoginToken);
-  console.log("TOKEN IS", token);
+  // const {token} = useContext(LoginToken);
   const [companiesAPI, setCompaniesAPI] = useState([]);
   const [query, setQuery] = useState("");
 

@@ -47,6 +47,12 @@ class JoblyApi {
     let res = await this.request(`login`, { username, password }, "post");
     return res.token;
   }
+
+  static async register({username, password, first_name, last_name, email, photo_url=""}) {
+    photo_url === "" ? photo_url = undefined : photo_url = photo_url;
+    let res = await this.request(`users`, { username, password, first_name, last_name, email, photo_url }, "post");
+    return res.token;
+  }
 }
 
 export default JoblyApi;
