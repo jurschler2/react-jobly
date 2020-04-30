@@ -38,7 +38,7 @@ function Company({user}) {
   useEffect(
     function populateUser() {
       async function getUserAPI() {
-        if (token && user) {
+        if (token && user && user.jobs) {
           let jobIds = [];
           user.jobs.map((job) => jobIds.push(job.id));
           setAppliedJobsIds(jobIds);

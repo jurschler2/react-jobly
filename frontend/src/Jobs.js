@@ -29,19 +29,19 @@ function Jobs({ user }) {
   useEffect(
     function populateJobs() {
       async function getJobsAPI() {
-        if (token) {
+        if (token && user) {
           const jobs = await JoblyApi.getJobs(query, token);
           setJobsAPI(jobs);
         }
       }
       getJobsAPI();
-    }, [query, token]);
+    }, [user, query, token]);
 
   // Get jobs user has applied for on page load
   useEffect(
     function populateUser() {
       async function getUserAPI() {
-        if (token && user) {
+        if (token && user && user.jobs) {
           let jobIds = [];
           user.jobs.map((job) => jobIds.push(job.id));
           setAppliedJobsIds(jobIds);
