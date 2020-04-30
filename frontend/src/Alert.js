@@ -1,14 +1,8 @@
 import React from "react";
 
 // Renders an alert to be displayed upon a user interaction.
-function Alert() {
-
-  return (
-    <div>
-      Alert
-    </div>
-  )
-
+function Alert({ message }) {
+  return <div>{message}</div>;
 }
 
 export default Alert;

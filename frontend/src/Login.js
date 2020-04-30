@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import Alert from "./Alert";
 import LoginToken from "./loginToken";
 import { Redirect } from "react-router-dom";
 
@@ -15,7 +14,7 @@ const INITIAL_STATE = {
 // Renders a login page for the user to login or signup.
 function Login({ addLogin, addRegistration }) {
   const [formData, setFormData] = useState(INITIAL_STATE);
-  const [showRegistration, setShowRegistration] = useState(true);
+  const [showRegistration, setShowRegistration] = useState(false);
 
   // Get the token from context.
   const { token } = useContext(LoginToken);
@@ -47,18 +46,24 @@ function Login({ addLogin, addRegistration }) {
     return (
       <form action="" onSubmit={handleLoginSubmit}>
         <label htmlFor="username">Username:</label>
+        <br />
         <input
           name="username"
           onChange={handleChange}
           value={formData.username}
         />
+        <br />
+
         <label htmlFor="password">Password:</label>
+        <br />
         <input
           type="password"
           name="password"
           onChange={handleChange}
           value={formData.password}
         />
+        <br />
+
         <button>Submit</button>
       </form>
     );
@@ -68,38 +73,56 @@ function Login({ addLogin, addRegistration }) {
     return (
       <form action="" onSubmit={handleRegistrationSubmit}>
         <label htmlFor="username">Username:</label>
+        <br />
         <input
           name="username"
           onChange={handleChange}
           value={formData.username}
         />
+        <br />
+
         <label htmlFor="password">Password:</label>
+        <br />
         <input
           type="password"
           name="password"
           onChange={handleChange}
           value={formData.password}
         />
+        <br />
+
         <label htmlFor="first_name">First Name:</label>
+        <br />
         <input
           name="first_name"
           onChange={handleChange}
           value={formData.first_name}
         />
+        <br />
+
         <label htmlFor="last_name">Last Name:</label>
+        <br />
         <input
           name="last_name"
           onChange={handleChange}
           value={formData.last_name}
         />
+        <br />
+
         <label htmlFor="email">Email:</label>
+        <br />
         <input name="email" onChange={handleChange} value={formData.email} />
+        <br />
+
         <label htmlFor="photo_url">Photo:</label>
+        <br />
         <input
           name="photo_url"
           onChange={handleChange}
           value={formData.photo_url}
         />
+        <br />
+
         <button>Submit</button>
       </form>
     );

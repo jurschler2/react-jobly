@@ -1,5 +1,3 @@
-import React, { useContext } from "react";
-import LoginToken from "./loginToken";
 import axios from "axios";
 
 // Class to centralize and simplify backend API interactions for React frontend.
@@ -58,7 +56,7 @@ class JoblyApi {
     email,
     photo_url = "",
   }) {
-    photo_url ? (photo_url = photo_url) : (photo_url = undefined);
+    if (!photo_url) photo_url = undefined;
     let res = await this.request(
       `users`,
       { username, password, first_name, last_name, email, photo_url },
@@ -74,15 +72,17 @@ class JoblyApi {
 
   static async updateUser(username, data, token) {
     data._token = token;
-    // delete data.jobs;
+    delete data.jobs;
     delete data.username;
     delete data.id;
-    data.photo_url
-      ? (data.photo_url = data.photo_url)
-      : (data.photo_url = undefined);
-    console.log("data", data);
+    if (!data.photo_url) data.photo_url = undefined;
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
+  }
+
+  static async apply(id, token) {
+    let res = await this.request(`jobs/${id}/apply`, { _token: token }, "post");
+    return res;
   }
 }
 
