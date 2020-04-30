@@ -1,4 +1,5 @@
 import axios from "axios";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 // Class to centralize and simplify backend API interactions for React frontend.
 class JoblyApi {
@@ -14,7 +15,7 @@ class JoblyApi {
       return (
         await axios({
           method: verb,
-          url: `http://localhost:3001/${endpoint}`,
+          url: `${BASE_URL}/${endpoint}`,
           [verb === "get" ? "params" : "data"]: paramsOrData,
         })
       ).data;
