@@ -18,16 +18,17 @@ function Profile({ addEditProfileInfo, user }) {
   const [formData, setFormData] = useState({ ...INITIAL_STATE });
 
   // Update form data on user object change (user populated)
-  useEffect(() => {
-    async function updateFormData() {
-      if (token && user) {
-        let copyOfUser = { ...user, password: "" };
-        if (!copyOfUser.photo_url) copyOfUser.photo_url = "";
-        setFormData(copyOfUser);
+  useEffect(
+    function updateProfileForm() {
+      async function updateFormData() {
+        if (token && user) {
+          let copyOfUser = { ...user, password: "" };
+          if (!copyOfUser.photo_url) copyOfUser.photo_url = "";
+          setFormData(copyOfUser);
+        }
       }
-    }
-    updateFormData();
-  }, [token, user]);
+      updateFormData();
+    }, [token, user]);
 
   // If not logged in, redirect to home
   if (!localStorage["token"] && !token) {

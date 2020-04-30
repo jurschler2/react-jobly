@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { debounce } from 'lodash';
 
 // Renders a search bar that enables a user to search.
 function Search({ addQuery }) {
@@ -15,6 +16,9 @@ function Search({ addQuery }) {
       ...fData,
       [name]: value,
     }));
+    const submitQuery = () => addQuery(formData.query);
+    const debouncer = debounce(submitQuery, 500);
+    debouncer();
   };
 
   function handleSubmit(evt) {
@@ -32,3 +36,4 @@ function Search({ addQuery }) {
 }
 
 export default Search;
+

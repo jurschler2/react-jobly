@@ -17,7 +17,6 @@ function Routes() {
   const [loginInfo, setLoginInfo] = useState();
   const [registrationInfo, setRegistrationInfo] = useState();
   const [editProfileInfo, setEditProfileInfo] = useState();
-
   const [token, setToken] = useState("");
   const [username, setUsername] = useState();
   const [user, setUser] = useState();
@@ -80,33 +79,35 @@ function Routes() {
   );
 
   // UPDATE USER on editProfileInfo change
-  useEffect(() => {
-    async function updateProfile() {
-      if (token && editProfileInfo) {
-        let res = await JoblyApi.updateUser(
-          editProfileInfo.username,
-          editProfileInfo,
-          token
-        );
-        setUsername(res.username);
-        setUser(res);
-        localStorage.setItem("username", res.username);
+  useEffect(
+    function updateProfilApi() {
+      async function updateProfile() {
+        if (token && editProfileInfo) {
+          let res = await JoblyApi.updateUser(
+            editProfileInfo.username,
+            editProfileInfo,
+            token
+          );
+          setUsername(res.username);
+          setUser(res);
+          localStorage.setItem("username", res.username);
+        }
+        return <Redirect to="/" />;
       }
-      return <Redirect to="/" />;
-    }
-    updateProfile();
-  }, [token, editProfileInfo]);
+      updateProfile();
+    }, [token, editProfileInfo]);
 
   // GET USER on page load
-  useEffect(() => {
-    async function getUserAPI() {
-      if (token && username) {
-        let currentUser = await JoblyApi.getUser(username, token);
-        setUser(currentUser);
+  useEffect(
+    function populateUser(){
+      async function getUserAPI() {
+        if (token && username) {
+          let currentUser = await JoblyApi.getUser(username, token);
+          setUser(currentUser);
+        }
       }
-    }
-    getUserAPI();
-  }, [token, username]);
+      getUserAPI();
+    }, [token, username]);
 
   // Set token/user in localStorage and context to "" and null
   const logOut = () => {
@@ -136,14 +137,13 @@ function Routes() {
 
   return (
     <LoginToken.Provider value={{ token }}>
-      {/* <GlobalUser.Provider value={{ user }}> */}
       <Navigation logOut={logOut} />
       <Switch>
         <Route exact path="/companies">
           <Companies />
         </Route>
-        <Route exact path="/companies/:company">
-          <Company />
+        <Route exact path="/companies/:company" >
+          <Company user={user} />
         </Route>
         <Route exact path="/">
           <Home />
@@ -154,16 +154,11 @@ function Routes() {
         <Route exact path="/login">
           <Login addLogin={addLogin} addRegistration={addRegistration} />
         </Route>
-        {/* <Route exact path="/login">
-          <PrivateRoute />
-        </Route> */}
         <Route exact path="/profile">
           <Profile addEditProfileInfo={addEditProfileInfo} user={user} />
         </Route>
         <Redirect to="/" />
       </Switch>
-      {/* <JoblyApi /> */}
-      {/* </GlobalUser.Provider> */}
     </LoginToken.Provider>
   );
 }
