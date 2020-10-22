@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import LoginToken from "./loginToken";
+import "./Navigation.css";
 
 // Renders a navigation bar which is dependent on whether a user is logged in.
 function Navigation({ logOut }) {

@@ -29,7 +29,7 @@ function Jobs({ user }) {
   useEffect(
     function populateJobs() {
       async function getJobsAPI() {
-        if (token && user) {
+        if (token && user && user.jobs) {
           const jobs = await JoblyApi.getJobs(query, token);
           setJobsAPI(jobs);
         }
@@ -41,7 +41,7 @@ function Jobs({ user }) {
   useEffect(
     function populateUser() {
       async function getUserAPI() {
-        if (token && user && user.jobs) {
+        if (token && user) {
           let jobIds = [];
           user.jobs.map((job) => jobIds.push(job.id));
           setAppliedJobsIds(jobIds);
